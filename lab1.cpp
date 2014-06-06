@@ -19,6 +19,7 @@ public:
 	int tiempo;
 	int id;
 	int iotime;
+	int rr;
 	
 };
 
@@ -29,6 +30,16 @@ public:
 	vector<proceso> lista;
 	
 };
+vector<evento> funcion1(int valor,vector<evento> lista){
+	int n = 0;
+	while(n < lista.size()){
+		lista.at(n).tiempo = lista.at(n).tiempo - valor;
+		if (lista.at(n).tiempo < 0) lista.at(n).tiempo=0;
+		n++;
+	}
+	return lista;
+};
+
 int main(int argc, char **argv){
 	int a = 10; //total de procesos
 	int tiempo = 5; //tiempo total para acabar el proceso
@@ -45,19 +56,21 @@ int main(int argc, char **argv){
 	//total de tiempo que el procesador pasa oceoso
 	int oceo=0;
 
+	//boolean para saber si la politica de scheduling es Round-Robin
+	bool rr;
 	//Variables globales que representan la simulacion
 	vector<evento> eventos;
-	vector<proceso> queue;
-	vector<proceso> io;
-	cpu procesador;
-	procesador.estado = true;
-	int contador = 1;
+	vector<proceso> queue; //cola de procesos que esperan para entrar al procesador
+	vector<proceso> io; //cola de procesos que esperan salir de I/O
+	cpu procesador; // procesador
+	procesador.estado = true; //parte el procesador como libre
+	int contador = 1; // contador para darle un identificador a los procesos
 	//Evento inter arribo
 
-	//funcion1 que resta el tiempo a los elementos de lista de eventos
 	//funcion2 que inserta el evento en la posicion que corresponde segun su tiempo
 	//funcion 3 que inserta un proceso dentro de la cola I/O en el lugar que le corresponde
 	//funcion 4 segun la politica de Scheuling entrega el siguiente proceso de la queue
+
 	proceso proce;
 	proce.id = contador;
 	contador++;
@@ -85,8 +98,9 @@ int main(int argc, char **argv){
 	while (procesot<a){
 		evento k = eventos.front();
 		switch(k.id){
+			//caso 1 el evento es un inter arribo
 			case 1:
-				//ejecuto funcion1(k.tiempo)
+				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
 				eventos.erase(eventos.begin());
 
@@ -103,20 +117,44 @@ int main(int argc, char **argv){
 				eventos.push_back(inter);
 
 				if (procesador.estado){
+					
 					procesador.estado = false;
 					procesador.lista.push_back(proce);
 					evento rp;
+					//funcion que fija el tiempo de rp
 					rp.tiempo = rpt;
 					rp.id = 2;
-					//ejecuto funcion2(rp)
-					eventos.push_back(rp);
+					//contabilizamos la posibilidad que el proceso termine antes del tiempo que se le asigno
+					if(rr && proce.rr<rp.tiempo ){
+						evento vuelta;
+						vuelta.tiempo = proce.tiempo;
+						vuelta.id=5;
+						//ejecuto funcion2(vuelta)
+						eventos.push_back(vuelta);
+					}
+					else{
+						if(proce.tiempo<rp.tiempo){
+							evento salida;
+							salida.tiempo = proce.tiempo;
+							salida.id=4;
+							//ejecuto funcion2(salida)
+							eventos.push_back(salida);
+
+						}
+						else{
+							//ejecuto funcion2(rp)
+							eventos.push_back(rp);
+						}
+					}
 				}
 				else{
 					queue.push_back(proce);
 				}
 				break;
+			//caso 2 el evento es una salida de un proceso del procesador por que se le acabo el tiempo
 			case 2:
-				//ejecuto funcion1(k.tiempo)
+
+				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
 
 				evento rio;
@@ -141,6 +179,7 @@ int main(int argc, char **argv){
 				if (queue.empty()){
 					oceo = oceo +eventos.front().tiempo;
 				}
+
 				else{
 					//funcion4
 					proce = queue.front();
@@ -149,14 +188,34 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = rpt;
 					rp.id = 2;
-					//ejecuto funcion2(rp)
-					eventos.push_back(rp);
+
+					if(rr && proce.rr<rp.tiempo ){
+						evento vuelta;
+						vuelta.tiempo = proce.tiempo;
+						vuelta.id=5;
+						//ejecuto funcion2(vuelta)
+						eventos.push_back(vuelta);
+					}
+					else{
+						if(proce.tiempo<rp.tiempo){
+							evento salida;
+							salida.tiempo = proce.tiempo;
+							salida.id=4;
+							//ejecuto funcion2(salida)
+							eventos.push_back(salida);
+
+						}
+						else{
+							//ejecuto funcion2(rp)
+							eventos.push_back(rp);
+						}
+					}
 					queue.erase(queue.begin());
 				}
 				break;
-
+			//caso 3 el evento es una salida de un proceso de la cola de I/O
 			case 3:
-				//ejecuto funcion1(k.tiempo)
+				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
 				queue.push_back(io.front());
 				io.erase(io.begin());
@@ -172,10 +231,98 @@ int main(int argc, char **argv){
 					eventos.push_back(rp);
 					queue.erase(queue.begin());
 				}
-
 				break;
 
-		  default:
+			//caso 4 el evento es una salida de un proceso del procesador debido a que termino	de ser procesado		
+			case 4:
+				eventos = funcion1(k.tiempo,eventos);
+				tiempototal = tiempototal+k.tiempo;
+				eventos.erase(eventos.begin());
+				//contabilizamos que termino un proceso
+				procesot++;
+
+				procesador.lista.erase(procesador.lista.begin());
+				procesador.estado = true;
+				if (queue.empty()){
+					oceo = oceo +eventos.front().tiempo;
+				}
+				else{
+					//funcion4
+					proce = queue.front();
+					procesador.estado = false;
+					procesador.lista.push_back(proce);
+					evento rp;
+					rp.tiempo = rpt;
+					rp.id = 2;
+
+					if(rr && proce.rr<rp.tiempo ){
+						evento vuelta;
+						vuelta.tiempo = proce.tiempo;
+						vuelta.id=5;
+						//ejecuto funcion2(vuelta)
+						eventos.push_back(vuelta);
+					}
+					else{
+						if(proce.tiempo<rp.tiempo){
+							evento salida;
+							salida.tiempo = proce.tiempo;
+							salida.id=4;
+							//ejecuto funcion2(salida)
+							eventos.push_back(salida);
+
+						}
+						else{
+							//ejecuto funcion2(rp)
+							eventos.push_back(rp);
+						}
+					}
+					queue.erase(queue.begin());
+				}
+			//caso 5 el evento es la salida de un proceso del procesador debido a que termino su momentum (RR)
+			case 5:
+				eventos = funcion1(k.tiempo,eventos);
+				tiempototal = tiempototal+k.tiempo;
+				eventos.erase(eventos.begin());
+
+				procesador.lista.front().tiempo  = procesador.lista.front().tiempo -procesador.lista.front().rr;
+				queue.push_back(procesador.lista.front());
+
+				procesador.lista.erase(procesador.lista.begin());
+				procesador.estado = true;
+
+
+				//funcion4
+				proce = queue.front();
+				procesador.estado = false;
+				procesador.lista.push_back(proce);
+				evento rp;
+				rp.tiempo = rpt;
+				rp.id = 2;
+
+				if(rr && proce.rr<rp.tiempo ){
+					evento vuelta;
+					vuelta.tiempo = proce.tiempo;
+					vuelta.id=5;
+					//ejecuto funcion2(vuelta)
+					eventos.push_back(vuelta);
+				}
+				else{
+					if(proce.tiempo<rp.tiempo){
+						evento salida;
+						salida.tiempo = proce.tiempo;
+						salida.id=4;
+						//ejecuto funcion2(salida)
+						eventos.push_back(salida);
+
+					}
+					else{
+						//ejecuto funcion2(rp)
+						eventos.push_back(rp);
+					}
+				}
+				queue.erase(queue.begin());
+
+		  	default:
     			cout << "value of x unknown";
 		}
 
