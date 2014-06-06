@@ -30,7 +30,8 @@ public:
 		rio1,
 		rio2;
 
-	Parametros (){}	;
+	Parametros (){};
+	~Parametros (){};
 
 
 	bool lectura (string intxt)
@@ -160,6 +161,10 @@ public:
 		filein.close();
 		return true;
 	};
+
+
+
+
 };
 
 int main(int argc, char **argv)
@@ -167,19 +172,20 @@ int main(int argc, char **argv)
 	bool makelog = false;
 	char c;	
 	string txtin, txtout = string("out.txt") , txtlog = string("log.txt");
+	fstream filetest;
 	while ((c = getopt (argc, argv, "i:o:l:")) != -1)
 	{
 		switch (c)
 		{
-			case 'i':
-				txtin = string(optarg);
-				/*fstream filein("in.txt", ios::in);
-				if (!filein.is_open())
+			case 'i':				
+				filetest.open(optarg, ios::in);
+				if (!filetest.is_open())
 				{
 					cout << txtin << "no existe o no se peude cargar" << endl;
 					return 1;
 				}
-				filein.close();*/
+				filetest.close();
+				txtin = string(optarg);
 				break;
 			case 'o':
 				txtout = string(optarg);
