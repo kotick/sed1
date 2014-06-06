@@ -79,7 +79,8 @@ int main(int argc, char **argv){
 			}
 	}
 
-	Parametros param(txtin, txtout);
+	Parametros param;
+	param.cargarDatos(txtin, txtout);
 	if (param.is_openIn))
 		cout << "it works!" << endl;
 	else 

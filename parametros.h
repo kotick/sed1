@@ -29,24 +29,27 @@ public:
 		 is_openLog;
 
 
-	Parametros (string txtin, string txtout)
-	{
-		is_openIn = lectura(txtin);
-		fileout.open(txtout.c_str(), ios::out);
-
-	};
-	Parametros (string txtin, string txtout, string txtlog)
-	{
-		lectura (txtin);
-		fileout.open(txtout.c_str(), ios::out);		
-		filelog.open(txtlog.c_str(), ios::out);
-	};
+	Parametros (){};
 	~Parametros ()
 	{
 		fileout.close();
 		filelog.close();
 	};
 
+
+	bool cargarDatos (string txtin, string txtout)
+	{
+		is_openIn = lectura(txtin);
+		fileout.open(txtout.c_str(), ios::out);
+		return true;
+	};
+	bool cargarDatos (string txtin, string txtout, string txtlog)
+	{
+		lectura (txtin);
+		fileout.open(txtout.c_str(), ios::out);		
+		filelog.open(txtlog.c_str(), ios::out);
+		return true;
+	};
 
 	bool escribirOut ()
 	{
