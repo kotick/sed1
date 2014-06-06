@@ -1,0 +1,6 @@
+numproc 800
+algoritmo RR 100
+interarrivo expotencial 500
+servicio expotencial 1000
+RP uniforme 1 99
+RIO uniforme 1
