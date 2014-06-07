@@ -199,7 +199,9 @@ int main(int argc, char **argv){
 	proceinicial.id = contador;
 	contador++;
 	proceinicial.tiempo = tiempo;
-	
+	if (rr){
+		proceinicial.rr = param.algortimo1;
+	}
 	procesador.estado = false;
 	procesador.lista.push_back(proceinicial);
 	
@@ -233,30 +235,33 @@ int main(int argc, char **argv){
 				proce1.id = contador;
 				contador++;
 				proce1.tiempo = tiempo;				
-				
+				if (rr){
+					proce1.rr = param.algortimo1;
+				}
 				evento inter;
-				//funcion que da el tiempo aleatorio del inter arribo
+				////////funcion que da el tiempo aleatorio del inter arribo
 				inter.tiempo = intert;
 				inter.id = 1;
-				cout<< "pico1.5"<<endl;
+
 				funcion2(eventos,inter);
 				param.escribirLog("inter", inter.tiempo, inter.id);
 
 				if (procesador.estado){
-					
 					procesador.estado = false;
 					procesador.lista.push_back(proce1);
 					evento rp;
-					//funcion que fija el tiempo de rp
+					////////funcion que fija el tiempo de rp
 					rp.tiempo = rpt;
 					rp.id = 2;
 					//contabilizamos la posibilidad que el proceso termine antes del tiempo que se le asigno
-					if(rr && proce1.rr<rp.tiempo ){
-						evento vuelta;
-						vuelta.tiempo = proce1.tiempo;
-						vuelta.id=5;
-						funcion2(eventos,vuelta);
-						param.escribirLog("vuelta", vuelta.tiempo, vuelta.id);
+					if(rr){
+						if(proce1.rr<rp.tiempo){
+							evento vuelta;
+							vuelta.tiempo = proce1.tiempo;
+							vuelta.id=5;
+							funcion2(eventos,vuelta);
+							param.escribirLog("vuelta", vuelta.tiempo, vuelta.id);
+						}
 					}
 					else{
 						if(proce1.tiempo<rp.tiempo){
