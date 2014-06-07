@@ -149,7 +149,10 @@ int main(int argc, char **argv){
 	}
 
 	Generador param;
-	param.cargarDatos(txtin, txtout);
+	if (makelog)
+		param.cargarDatos(txtin, txtout, txtlog);
+	else 
+		param.cargarDatos(txtin, txtout);
 	if (param.is_openIn)
 		cout << "it works!" << endl;
 	else 
@@ -612,6 +615,7 @@ int main(int argc, char **argv){
 		}
 
 	}
+
 	//1. tiempo total de la simulacion
 	cout << tiempototal <<endl;
 
@@ -632,7 +636,13 @@ int main(int argc, char **argv){
 	estadistica8 = promedioqueue/totalqueue;
 	//8. largo promedio de la cola de listos
 	cout <<estadistica8<<endl;
-	
+
+
+	param.escribirOut("procesos creados", int(procesoscreados));
+	param.escribirOut("procesos salidos", int(procesossalidos));
+	param.escribirOut("procesos totales", int(procesot));
+	delete &param;
+
 	
 	return 0;
 }
