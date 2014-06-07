@@ -180,7 +180,7 @@ int main(int argc, char **argv){
 	else{
 		rr=false;
 	}
-	double prueba=param.Tservicio(10000);
+
 
 	//Variables globales que representan la simulacion
 	vector<evento> eventos;
