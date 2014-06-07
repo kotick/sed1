@@ -1,13 +1,8 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include <vector>
-#include <sys/time.h>
-#include <time.h>
+
+
+#ifndef _PARAMETROS_H
+#define _PARAMETROS_H
+
 
 using namespace std;
 
@@ -29,17 +24,53 @@ public:
 		rio,
 		rio1,
 		rio2;
+	bool is_openIn,
+		 is_openOut,
+		 is_openLog;
+
 
 	Parametros (){};
-	~Parametros (){};
-
-
-	bool lectura (string intxt)
+	~Parametros ()
 	{
-		fstream filein(intxt.c_str(), ios::in);
+		fileout.close();
+		filelog.close();
+	};
+
+
+	bool cargarDatos (string txtin, string txtout)
+	{
+		is_openIn = lectura(txtin);
+		fileout.open(txtout.c_str(), ios::out);
+		return true;
+	};
+	bool cargarDatos (string txtin, string txtout, string txtlog)
+	{
+		lectura (txtin);
+		fileout.open(txtout.c_str(), ios::out);		
+		filelog.open(txtlog.c_str(), ios::out);
+		return true;
+	};
+
+	bool escribirOut ()
+	{
+		filelog << endl;
+	};
+	bool escribirLog (string tipo, int tiempo, int id)
+	{
+		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
+	};
+
+private:
+	fstream filein,
+			fileout, 
+			filelog;
+
+	bool lectura (string txtin)
+	{
+		filein.open(txtin.c_str(), ios::in);
 		if (!filein.is_open())
 		{
-			cout << intxt << " no existe o no se puede cargar" << endl;
+			cout << txtin << " no existe o no se puede cargar" << endl;
 			return false;
 		}
 		while (!filein.eof())
@@ -161,50 +192,7 @@ public:
 		filein.close();
 		return true;
 	};
-
-
-
-
 };
 
-int main(int argc, char **argv)
-{
-	bool makelog = false;
-	char c;	
-	string txtin, txtout = string("out.txt") , txtlog = string("log.txt");
-	fstream filetest;
-	while ((c = getopt (argc, argv, "i:o:l:")) != -1)
-	{
-		switch (c)
-		{
-			case 'i':				
-				filetest.open(optarg, ios::in);
-				if (!filetest.is_open())
-				{
-					cout << txtin << "no existe o no se peude cargar" << endl;
-					return 1;
-				}
-				filetest.close();
-				txtin = string(optarg);
-				break;
-			case 'o':
-				txtout = string(optarg);
-				break;
-			case 'l':
-				txtlog = string(optarg);
-				makelog = true;
-				break;
-			default:
-				abort();
-			}
-	}
 
-	Parametros leAsdf;
-	if (leAsdf.lectura(txtin))
-		cout << "it works!" << endl;
-	else 
-		cout << "it fails :(" << endl;
-
-
-	return 0;
-}
+#endif 
