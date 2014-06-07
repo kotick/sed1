@@ -183,8 +183,10 @@ int main(int argc, char **argv){
 	else{
 		rr=false;
 	}
-	double prueba=param.Tservicio(10000);
-	cout <<"hola linda: " << prueba <<endl;
+
+	//esto es una prueba!!!!!!!
+	//double prueba=param.RP(11);
+	//cout <<"hola linda: " << prueba <<endl;
 
 	//Variables globales que representan la simulacion
 	vector<evento> eventos;

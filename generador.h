@@ -151,28 +151,42 @@ public:
 
 private:
 	double Exponencial(int lambda, double tiempo){
-		double u=Uniforme(0,1,tiempo);
-		double tux=(-1/lambda)*u;
-
+		cout <<"esto Exponencial: ";
+		default_random_engine generator;
+		exponential_distribution<double> distribution(lambda);
+		generator.seed(tiempo);
+		double tux=distribution(generator);
 		return tux;
 	};
 
 	double Uniforme(int a,int b,double tiempo){//t es el tiempo de eecucion c:
-		double numerador=pow(M_E,tiempo*b)-pow(M_E,tiempo*a);
-		double denominador=tiempo*(b-a);
-		double tux=(numerador/denominador);
+		cout <<"esto Exponencial: ";
+		default_random_engine generator;
+		uniform_int_distribution<int> distribution(a,b);
+		generator.seed(tiempo);
+		double tux = distribution(generator);
+
+		//double numerador=pow(M_E,tiempo*b)-pow(M_E,tiempo*a);
+		//double denominador=tiempo*(b-a);
+		//ouble tux=(numerador/denominador);
 		return tux;
 	
 	};
 
 	// http://www.cplusplus.com/reference/random/normal_distribution/
-	double Normal(int mu,int desv,double tiempo){
-		double primerTermino=mu*sqrt(2*M_PI);
-		double primero=pow(primerTermino,-1);//va
-		double num1= pow(tiempo-mu,2);
-		double den1=2*pow(mu,2);
-		double elevado=-1*num1/den1;//va
-		double tux=primero*pow(M_E,elevado);
+	double Normal(int mu,int desv1,double tiempo){
+		cout <<"esto Normal: ";
+		double desv =sqrt(desv1);
+		std::default_random_engine generator;
+  		std::normal_distribution<double> distribution(mu,desv);
+		generator.seed(tiempo);
+		//double primerTermino=mu*sqrt(2*M_PI);
+		//double primero=pow(primerTermino,-1);//va
+		//double num1= pow(tiempo-mu,2);
+		//double den1=2*pow(mu,2);
+		//double elevado=-1*num1/den1;//va
+		//double tux=primero*pow(M_E,elevado);
+		double tux = distribution(generator);
 		return tux;
 	};
 
