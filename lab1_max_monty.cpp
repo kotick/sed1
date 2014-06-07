@@ -156,8 +156,8 @@ int main(int argc, char **argv){
 		cout << "it fails :(" << endl;
 
 	int a = 10; //total de procesos
-	int tiempo = 5; //tiempo total para acabar el proceso
-	int rpt = 1; //tiempo dentro del procesador
+	int tiempo = 20; //tiempo total para acabar el proceso
+	int rpt = 10; //tiempo dentro del procesador
 	int riot = 2; //tiempo dentro de I/O
 	int intert = 5; //tiempo inter arribo
 
@@ -170,6 +170,7 @@ int main(int argc, char **argv){
 	//total de tiempo que el procesador pasa oceoso
 	int oceo=0;
 
+	int procesoscreados = 0;
 	//boolean para saber si la politica de scheduling es Round-Robin
 	bool rr;
 	if(param.algoritmo==3){
@@ -179,7 +180,6 @@ int main(int argc, char **argv){
 		rr=false;
 	}
 	double prueba=param.Tservicio(10000);
-	cout <<"hola linda: " << prueba <<endl;
 
 	//Variables globales que representan la simulacion
 	vector<evento> eventos;
@@ -195,6 +195,7 @@ int main(int argc, char **argv){
 	//funcion 4 segun la politica de Scheuling entrega el siguiente proceso de la queue
 
 	proceso proceinicial;
+	procesoscreados++;
 	proceinicial.id = contador;
 	contador++;
 	proceinicial.tiempo = tiempo;
@@ -223,11 +224,12 @@ int main(int argc, char **argv){
 			//caso 1 el evento es un inter arribo
 			case 1:{
 				cout<< "pico1"<<endl;
+				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
-				eventos.erase(eventos.begin());
 
 				proceso proce1;
+				procesoscreados++;
 				proce1.id = contador;
 				contador++;
 				proce1.tiempo = tiempo;				
@@ -236,6 +238,7 @@ int main(int argc, char **argv){
 				//funcion que da el tiempo aleatorio del inter arribo
 				inter.tiempo = intert;
 				inter.id = 1;
+				cout<< "pico1.5"<<endl;
 				funcion2(eventos,inter);
 				param.escribirLog("inter", inter.tiempo, inter.id);
 
@@ -278,6 +281,7 @@ int main(int argc, char **argv){
 			//caso 2 el evento es una salida de un proceso del procesador por que se le acabo el tiempo
 			case 2:{
 				cout<< "pico2"<<endl;
+				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
 
@@ -292,10 +296,9 @@ int main(int argc, char **argv){
 				procesador.lista.erase(procesador.lista.begin());
 				procesador.estado = true;
 				
-				eventos.erase(eventos.begin());
 
 				funcion2(eventos,rio);
-				cout<< "pico2.5"<<endl;	
+				
 				param.escribirLog("rio", rio.tiempo, rio.id);		
 
 				if (queue.empty()){
@@ -303,13 +306,16 @@ int main(int argc, char **argv){
 				}
 
 				else{
+					cout<< "pico2.3"<<endl;
 					proceso proce2 = funcion4(queue,param.algoritmo);
+					cout<< "pico2.4"<<endl;
 					procesador.estado = false;
 					procesador.lista.push_back(proce2);
+
 					evento rp;
 					rp.tiempo = rpt;
 					rp.id = 2;
-
+					cout<< "pico2.5"<<endl;
 					if(rr && proce2.rr<rp.tiempo ){
 						evento vuelta;
 						vuelta.tiempo = proce2.tiempo;
@@ -337,6 +343,7 @@ int main(int argc, char **argv){
 			//caso 3 el evento es una salida de un proceso de la cola de I/O
 			case 3:{
 				cout<< "pico3"<<endl;
+				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
 
@@ -345,7 +352,6 @@ int main(int argc, char **argv){
 				cout << io.front().id<<endl;
 				io.erase(io.begin());
 				cout<< "pico3.5"<<endl;
-				eventos.erase(eventos.begin());
 				if(procesador.estado){
 					proceso proce3 = funcion4(queue,param.algoritmo);
 					procesador.estado = false;
@@ -361,26 +367,31 @@ int main(int argc, char **argv){
 			//caso 4 el evento es una salida de un proceso del procesador debido a que termino	de ser procesado		
 			case 4:{
 				cout<< "pico4"<<endl;
+				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
-				eventos.erase(eventos.begin());
+				
 				//contabilizamos que termino un proceso
 				procesot++;
 
 				procesador.lista.erase(procesador.lista.begin());
 				procesador.estado = true;
+				cout<< "pico4.2"<<endl;
 				if (queue.empty()){
+					cout<< "pico4.3"<<endl;
 					oceo = oceo +eventos.front().tiempo;
 				}
 				else{
+					cout<< "pico4.4"<<endl;
 					proceso proce4 = funcion4(queue,param.algoritmo);
 					procesador.estado = false;
 					procesador.lista.push_back(proce4);
 					evento rp;
 					rp.tiempo = rpt;
 					rp.id = 2;
-
+					cout<< "pico4.5"<<endl;
 					if(rr && proce4.rr<rp.tiempo ){
+						cout<< "pico4.6"<<endl;
 						evento vuelta;
 						vuelta.tiempo = proce4.tiempo;
 						vuelta.id=5;
@@ -389,6 +400,7 @@ int main(int argc, char **argv){
 					}
 					else{
 						if(proce4.tiempo<rp.tiempo){
+							cout<< "pico4.7"<<endl;
 							evento salida;
 							salida.tiempo = proce4.tiempo;
 							salida.id=4;
@@ -407,9 +419,9 @@ int main(int argc, char **argv){
 			//caso 5 el evento es la salida de un proceso del procesador debido a que termino su momentum (RR)
 			case 5:{
 				cout<< "pico5"<<endl;
+				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
-				eventos.erase(eventos.begin());
 
 				procesador.lista.front().tiempo  = procesador.lista.front().tiempo -procesador.lista.front().rr;
 				queue.push_back(procesador.lista.front());
@@ -453,7 +465,7 @@ int main(int argc, char **argv){
 		}
 
 	}
-
+	cout << procesoscreados <<endl;
 	return 0;
 }
 
