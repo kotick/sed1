@@ -36,7 +36,7 @@ public:
 	vector<proceso> lista;
 	
 };
-vector<evento> funcion1(int valor,vector<evento> lista){
+vector<evento> funcion1(double valor,vector<evento> lista){
 	int n = 0;
 	while(n < lista.size()){
 		lista.at(n).tiempo = lista.at(n).tiempo - valor;
@@ -231,7 +231,6 @@ int main(int argc, char **argv){
 			break;
 		}
 		evento k = eventos.front();
-		cout << k.tiempo<<endl;
 		switch(k.id){
 			//caso 1 el evento es un inter arribo
 			case 1:{
@@ -619,14 +618,17 @@ int main(int argc, char **argv){
 
 	}	
 	cout <<"final"<<endl;
+
+
+	double oseo = -oceo;
+	tiempototal = tiempototal+oseo;
+	double utilizacion = tiempototal -oseo;
 	//1. tiempo total de la simulacion
 	cout << tiempototal <<endl;
-
-	double utilizacion = tiempototal-oceo;
 	//2. Utilizacion del servidor
 	cout << utilizacion<<endl;
 	//3. Total tiempo osioso del servidor
-	cout << oceo <<endl;
+	cout << oseo <<endl;
 	cout << "falta estadistica 4"<<endl;
 	int tencolaio = tiempototalio/procesosio;
 	//5. tiempo de espera en cola I/O
@@ -640,12 +642,11 @@ int main(int argc, char **argv){
 	//8. largo promedio de la cola de listos
 	cout <<estadistica8<<endl;
 
-
+	
 
 	param.escribirOut("1.", double(tiempototal));
 	param.escribirOut("2.", double(utilizacion));
-	param.escribirOut("3.", double(oceo));
-
+	param.escribirOut("3.", double(oseo));
 	param.escribirOut("5.", double(tencolaio));
 	param.escribirOut("6.", double(tresidencia));
 	param.escribirOut("7.", double(largomaximocola));
