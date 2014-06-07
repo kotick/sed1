@@ -217,12 +217,13 @@ int main(int argc, char **argv){
 	evento inter;
 	inter.tiempo = param.Interarrivo(tiempototal);
 	inter.id = 1;
+	cout << "retardo"<<endl;
 	funcion2(eventos,inter);
 
 	evento rp;
 	rp.tiempo = param.RP(tiempototal);
 	rp.id = 2;
-
+	cout << "retardo"<<endl;
 	funcion2(eventos,rp);
 
 	//Bucle que expresa el funcionamiento del procesador
