@@ -241,7 +241,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					interarrivo2 = atoi (getline.c_str());
 				}
-				else if (getline.compare("expotencial") == 0)
+				else if (getline.compare("exponencial") == 0)
 				{
 					interarrivo = 2;
 					filein >> getline;
@@ -259,7 +259,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					servicio2 = atoi (getline.c_str());
 				}
-				else if (getline.compare("expotencial") == 0)
+				else if (getline.compare("exponencial") == 0)
 				{
 					servicio = 2;
 					filein >> getline;
@@ -291,7 +291,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					rp2 = atoi (getline.c_str());
 				}
-				else if (getline.compare("expotencial") == 0)
+				else if (getline.compare("exponencial") == 0)
 				{
 					rp = 4;
 					filein >> getline;
