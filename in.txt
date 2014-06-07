@@ -1,5 +1,5 @@
-numproc 8000
-algoritmo RR 100
+numproc 10
+algoritmo SJF
 interarrivo expotencial 5
 servicio expotencial 100
 RP uniforme 50 80

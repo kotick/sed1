@@ -95,7 +95,7 @@ proceso funcion4(vector<proceso> &lista, int idAlgoritmo){
 			break;
 
 		case 2:
-			
+			posicion=0;
 			for (int i = 0; i < lista.size(); ++i)
 			{
 				if(com.tiempo>lista.at(i).tiempo){
@@ -155,7 +155,8 @@ int main(int argc, char **argv){
 	else 
 		cout << "it fails :(" << endl;
 
-	int a = 10; //total de procesos
+	int a = param.numproc; //total de procesos
+
 	int tiempo = 20; //tiempo total para acabar el proceso
 	int rpt = 10; //tiempo dentro del procesador
 	int riot = 2; //tiempo dentro de I/O
