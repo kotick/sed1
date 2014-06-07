@@ -27,6 +27,9 @@ public:
 	bool is_openIn,
 		 is_openOut,
 		 is_openLog;
+	fstream filein,
+			fileout, 
+			filelog;
 
 
 	Parametros (){};
@@ -60,10 +63,7 @@ public:
 		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
 	};
 
-private:
-	fstream filein,
-			fileout, 
-			filelog;
+	
 
 	bool lectura (string txtin)
 	{

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <vector>
+#include <random>
 #include "generador.h"
 
 
@@ -13,7 +14,7 @@ using namespace std;
 class evento
 {
 public:
-	int tiempo;
+	double tiempo;
 	int id;
 	
 };
@@ -21,7 +22,7 @@ public:
 class proceso
 {
 public:
-	int tiempo;
+	double tiempo;
 	int id;
 	int iotime;
 	int rr;
@@ -45,38 +46,38 @@ vector<evento> funcion1(int valor,vector<evento> lista){
 	return lista;
 };
 
-void funcion2(vector<evento> &lista, evento){
+void funcion2(vector<evento> &lista, evento event){
 	int posicion;
 	if(lista.size()!=0){
 
 		for (int i = 0; i < lista.size(); ++i)
 		{
-			if(lista.at(i).tiempo<evento.tiempo){
+			if(lista.at(i).tiempo<event.tiempo){
 				posicion=i;
 			}
 		}
-		lista.insert(lista.begin()+posicion+1,n);
+		lista.insert(lista.begin()+posicion+1,event);
 	}
 	else{
-		lista.push_back(evento);
+		lista.push_back(event);
 
 
 	}
 }
 
-void funcion3(vector<proceso> &lista, proceso){
+void funcion3(vector<proceso> &lista, proceso proc){
 	int posicion;
 	if(lista.size()!=0){
 		for (int i = 0; i < lista.size(); ++i)
 		{
-			if(lista.at(i).tiempo<proceso.tiempo){
+			if(lista.at(i).tiempo<proc.tiempo){
 				posicion=i;
 			}
 		}
-		lista.insert(lista.begin()+posicion+1,n);
+		lista.insert(lista.begin()+posicion+1,proc);
 	}
 	else{
-		lista.push_back(proceso);
+		lista.push_back(proc);
 	}
 
 }
@@ -117,17 +118,10 @@ int main(int argc, char **argv){
 
 	Generador param;
 	param.cargarDatos(txtin, txtout);
-	if (param.is_openIn))
+	if (param.is_openIn)
 		cout << "it works!" << endl;
 	else 
 		cout << "it fails :(" << endl;
-
-
-
-
-
-
-
 
 
 
@@ -434,10 +428,6 @@ int main(int argc, char **argv){
 
 	}
 
-
-
-
-	.escribirOut(tiempototal, oceo)
 	return 0;
 }
 

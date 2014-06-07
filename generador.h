@@ -1,14 +1,84 @@
-#include "parametros.h"
+#define _USE_MATH_DEFINES
+
+#include <iostream>
+#include <random>
+#include <cmath>
+
+
 #ifndef _GENERADOR_H
 #define _GENERADOR_H
 
-class Generador : Parametros
+using namespace std;
+
+class Generador
 {	//parametros
 
 public:
 	//tu llamas a estas cosas para que te de el tiempo
+	public:
+	int numproc,
+		algoritmo,
+		algoritmo1,
+		interarrivo,
+		interarrivo1,
+		interarrivo2,
+		servicio,
+		servicio1,
+		servicio2,
+		rp,
+		rp1,
+		rp2,
+		rio,
+		rio1,
+		rio2;
+	bool is_openIn,
+		 is_openOut,
+		 is_openLog;
+	fstream filein,
+			fileout, 
+			filelog;
 
-	double Interarrivo(tiempo){
+
+	Generador (){};
+	~Generador ()
+	{
+		fileout.close();
+		filelog.close();
+	};
+
+
+	bool cargarDatos (string txtin, string txtout)
+	{
+		is_openIn = lectura(txtin);
+		fileout.open(txtout.c_str(), ios::out);
+		return true;
+	};
+	bool cargarDatos (string txtin, string txtout, string txtlog)
+	{
+		lectura (txtin);
+		fileout.open(txtout.c_str(), ios::out);		
+		filelog.open(txtlog.c_str(), ios::out);
+		return true;
+	};
+
+	bool escribirOut (string salida)
+	{
+		filelog << salida << endl;
+	};
+	bool escribirLog (string tipo, int tiempo, int id)
+	{
+		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
+	};
+
+	
+
+	
+
+
+
+
+
+	double Interarrivo(double tiempo){
 		double delta;
 
 		switch(interarrivo){//se supone que lo conozco, maldita
@@ -23,10 +93,10 @@ public:
 		}
 
 		return delta;
-	}
+	};
 
 
-	double Tservicio(tiempo){
+	double Tservicio(double tiempo){
 		double delta;
 		switch(servicio){
 			case 2://uniforme
@@ -38,10 +108,10 @@ public:
 
 		}
 		return delta;
-	}
+	};
 
 
-	double RP(tiempo){
+	double RP(double tiempo){
 		double delta;
 		switch(rp){
 			case 1://constante
@@ -62,8 +132,8 @@ public:
 		}
 		return delta;
 
-	}
-	double RIO(tiempo){
+	};
+	double RIO(double tiempo){
 		double delta;
 		switch(rio){
 			case 1:
@@ -76,36 +146,165 @@ public:
 
 		}
 		return delta;
-	}
+	};
 
 
 
 private:
-	double Exponencial(lambda,tiempo){
-		u=Uniforme(0,1,tiempo);
-		double tiempo=(-1/lambda)*u;
-		return tiempo;
-	}
+	double Exponencial(int lambda, double tiempo){
+		double u=Uniforme(0,1,tiempo);
+		double tux=(-1/lambda)*u;
+		return tux;
+	};
 
-	double Uniforme(a,b,tiempo){//t es el tiempo de eecucion c:
-		double numerador=pow(M_E,t*b)-pow(M_E,t*a);
-		double denominador=t*(b-a);
-		double tiempo=(numerador/denominador);
-		return tiempo;
+	double Uniforme(int a,int b,double tiempo){//t es el tiempo de eecucion c:
+		double numerador=pow(M_E,tiempo*b)-pow(M_E,tiempo*a);
+		double denominador=tiempo*(b-a);
+		double tux=(numerador/denominador);
+		return tux;
 	
-	}
+	};
 
 	// http://www.cplusplus.com/reference/random/normal_distribution/
-	double Normal(mu,desv,tiempo){
+	double Normal(int mu,int desv,double tiempo){
 		double primerTermino=mu*sqrt(2*M_PI);
 		double primero=pow(primerTermino,-1);//va
-		double num1= pow(t-mu,2);
+		double num1= pow(tiempo-mu,2);
 		double den1=2*pow(mu,2);
 		double elevado=-1*num1/den1;//va
-		double tiempo=primero*pow(M_E,elevado);
-		return tiempo;
-	}
-};
+		double tux=primero*pow(M_E,elevado);
+		return tux;
+	};
+
 //hasta acá hice yo, Valeria  c:
+
+bool lectura (string txtin)
+	{
+		filein.open(txtin.c_str(), ios::in);
+		if (!filein.is_open())
+		{
+			cout << txtin << " no existe o no se puede cargar" << endl;
+			return false;
+		}
+		while (!filein.eof())
+		{
+			string getline;
+			filein >> getline;
+			if (!getline.compare("numproc"))
+			{
+				filein >> getline;
+				numproc = atoi (getline.c_str());
+				cout << numproc << endl;
+			}
+			else if (!getline.compare("algoritmo"))
+			{
+				filein >> getline;
+				if (getline.find("FCFS") == 0)
+					algoritmo = 1;
+				else if (getline.find("SJF") == 0)
+					algoritmo = 2;
+				else if (getline.find("RR") == 0)
+				{
+					algoritmo = 3;
+					filein >> getline;
+					algoritmo1 = atoi (getline.c_str());
+				}
+				cout << algoritmo << algoritmo1  << endl;
+			}
+			else if (!getline.compare("interarrivo"))
+			{
+				filein >> getline;
+				if (getline.find("uniforme") == 0)
+				{
+					interarrivo = 1;
+					filein >> getline;
+					interarrivo1 = atoi (getline.c_str());
+					filein >> getline;
+					interarrivo2 = atoi (getline.c_str());
+				}
+				else if (getline.find("expotencial") == 0)
+				{
+					interarrivo = 2;
+					filein >> getline;
+					interarrivo1 = atoi (getline.c_str());
+				}
+				cout << interarrivo << interarrivo1 << interarrivo2 << endl;
+			}
+			else if (!getline.compare("servicio"))
+			{
+				filein >> getline;
+				if (getline.find("uniforme") == 0)
+				{
+					servicio = 1;
+					filein >> getline;
+					servicio1 = atoi (getline.c_str());
+					filein >> getline;
+					servicio2 = atoi (getline.c_str());
+				}
+				else if (getline.find("expotencial") == 0)
+				{
+					servicio = 2;
+					filein >> getline;
+					servicio1 = atoi (getline.c_str());
+				}
+				cout << servicio << servicio1 << servicio2 << endl;
+			}
+			else if (!getline.compare("RF"))
+			{
+				filein >> getline;
+				if (getline.find("constante") == 0)
+				{
+					rp = 1;
+					filein >> getline;
+					rp1 = atoi (getline.c_str());
+				}
+				else if (getline.find("uniforme") == 0)
+				{
+					rp = 2;
+					filein >> getline;
+					rp1 = atoi (getline.c_str());
+					filein >> getline;
+					rp2 = atoi (getline.c_str());
+				}				
+				else if (getline.find("normal") == 0)
+				{
+					rp = 3;
+					filein >> getline;
+					rp1 = atoi (getline.c_str());
+					filein >> getline;
+					rp2 = atoi (getline.c_str());
+				}
+				else if (getline.find("expotencial") == 0)
+				{
+					rp = 4;
+					filein >> getline;
+					rp1 = atoi (getline.c_str());
+				}
+				cout << rp << rp1 << rp2 << endl;
+			}
+			else if (!getline.compare("RIO"))
+			{
+				filein >> getline;
+				if (getline.find("constante") == 0)
+				{
+					rio = 1;
+					filein >> getline;
+					rio1 = atoi (getline.c_str());
+				}
+				else if (getline.find("uniforme") == 0)
+				{
+					rio = 2;
+					filein >> getline;
+					rio1 = atoi (getline.c_str());
+					filein >> getline;
+					rio2 = atoi (getline.c_str());
+				}
+				cout << rio << rio1 << rio2 << endl;
+			}
+		}
+		filein.close();
+		return true;
+	};
+};
 
 #endif
