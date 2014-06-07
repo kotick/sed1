@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <vector>
-#include "parametros.h"
+#include "generador.h"
 
 
 using namespace std;
@@ -79,7 +79,7 @@ int main(int argc, char **argv){
 			}
 	}
 
-	Parametros param;
+	Generador param;
 	param.cargarDatos(txtin, txtout);
 	if (param.is_openIn))
 		cout << "it works!" << endl;
@@ -397,6 +397,11 @@ int main(int argc, char **argv){
 		}
 
 	}
+
+
+
+
+	.escribirOut(tiempototal, oceo)
 	return 0;
 }
 
