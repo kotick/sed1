@@ -157,6 +157,7 @@ int main(int argc, char **argv){
 
 	int a = param.numproc; //total de procesos
 
+	///////Variables para estadisticas
 
 	//total de unidades de tiempo
 	int tiempototal=0;
@@ -165,8 +166,14 @@ int main(int argc, char **argv){
 	//total de tiempo que el procesador pasa oceoso
 	int oceo=0;
 
+	int residencia = 0;
+	int procesosio = 0;
+	int tiempototalio = 0;
 	int procesossalidos = 0;
 	int procesoscreados = 0;
+	int largomaximocola= 0;
+	int totalqueue= 0;
+	int promedioqueue = 0;
 	//boolean para saber si la politica de scheduling es Round-Robin
 	bool rr;
 	if(param.algoritmo==3){
@@ -300,6 +307,11 @@ int main(int argc, char **argv){
 					}
 					else{
 						queue.push_back(proce1);
+						totalqueue++;
+						promedioqueue= promedioqueue+queue.size();
+						if (queue.size()>tencolaio){
+							tencolaio = queue.size();
+						}
 					}
 				}
 				break;
@@ -307,6 +319,7 @@ int main(int argc, char **argv){
 			//caso 2 el evento es una salida de un proceso del procesador por que se le acabo el tiempo
 			case 2:{
 				cout<< "Evento 2"<<endl;
+				residencia++;
 				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
@@ -314,6 +327,8 @@ int main(int argc, char **argv){
 				evento rio;
 				//funcion que entrega el tiempo de IO
 				rio.tiempo = param.RIO(tiempototal);
+				tiempototalio = tiempototalio +rio.tiempo;
+
 				rio.id=3;
 
 				procesador.lista.front().iotime = rio.tiempo;
@@ -393,13 +408,18 @@ int main(int argc, char **argv){
 			}
 			//caso 3 el evento es una salida de un proceso de la cola de I/O
 			case 3:{
-
+				procesosio++;
 				cout<< "Evento 3"<<endl;
 				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
 				tiempototal = tiempototal+k.tiempo;
 
 				queue.push_back(io.front());
+				totalqueue++;
+				promedioqueue= promedioqueue+queue.size();
+				if (queue.size()>tencolaio){
+					tencolaio = queue.size();
+				}
 				io.erase(io.begin());
 				if(procesador.estado){
 					proceso proce3 = funcion4(queue,param.algoritmo);
@@ -459,7 +479,7 @@ int main(int argc, char **argv){
 			}
 			//caso 4 el evento es una salida de un proceso del procesador debido a que termino	de ser procesado		
 			case 4:{
-
+				residencia++;
 				cout<< "Evento 4"<<endl;
 				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
@@ -534,6 +554,7 @@ int main(int argc, char **argv){
 			}
 			//caso 5 el evento es la salida de un proceso del procesador debido a que termino su momentum (RR)
 			case 5:{
+				residencia++;
 				cout<< "Evento 5"<<endl;
 				eventos.erase(eventos.begin());
 				eventos = funcion1(k.tiempo,eventos);
@@ -541,7 +562,11 @@ int main(int argc, char **argv){
 
 				procesador.lista.front().tiempo  = procesador.lista.front().tiempo -procesador.lista.front().rr;
 				queue.push_back(procesador.lista.front());
-
+				totalqueue++;
+				promedioqueue= promedioqueue+queue.size();
+				if (queue.size()>tencolaio){
+					tencolaio = queue.size();
+				}
 				procesador.lista.erase(procesador.lista.begin());
 
 				proceso proce5 = funcion4(queue,param.algoritmo);
@@ -587,8 +612,26 @@ int main(int argc, char **argv){
 		}
 
 	}
-	cout << procesoscreados <<endl;
-	cout << procesot <<endl;
+	//1. tiempo total de la simulacion
+	cout << tiempototal <<endl;
+
+	int utilizacion = tiempototal-oceo;
+	//2. Utilizacion del servidor
+	cout << utilizacion<<endl;
+	//3. Total tiempo osioso del servidor
+	cout << oceo <<endl;
+
+	tresidencia = utilizacion/residencia;
+	tencolaio = tiempototalio/procesosio;
+	//5. tiempo de espera en cola I/O
+	cout << tencolaio <<endl;
+	//6. tiempo promedio de residencia
+	cout << tresidencia <<endl;
+	//7. largo maximo de la cola de listos
+	cout <<tencolaio<<endl;
+	estadistica8 = promedioqueue/totalqueue;
+	//8. largo promedio de la cola de listos
+	cout <<estadistica8<<endl;
 	
 	
 	return 0;

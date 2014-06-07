@@ -1,4 +1,4 @@
-numproc 800
+numproc 1000
 algoritmo RR 100
 interarrivo expotencial 10
 servicio exponencial 100
