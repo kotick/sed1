@@ -49,7 +49,7 @@ vector<evento> funcion1(double valor,vector<evento> lista){
 };
 
 void funcion2(vector<evento> &lista, evento event){
-	int posicion;
+	int posicion=0;
 	if(lista.size()!=0){
 
 		for (int i = 0; i < lista.size(); ++i)
@@ -68,7 +68,7 @@ void funcion2(vector<evento> &lista, evento event){
 }
 
 void funcion3(vector<proceso> &lista, proceso proc){
-	int posicion;
+	int posicion=0;
 	if(lista.size()!=0){
 		for (int i = 0; i < lista.size(); ++i)
 		{
@@ -217,13 +217,11 @@ int main(int argc, char **argv){
 	evento inter;
 	inter.tiempo = param.Interarrivo(tiempototal);
 	inter.id = 1;
-	cout << "retardo"<<endl;
 	funcion2(eventos,inter);
 
 	evento rp;
 	rp.tiempo = param.RP(tiempototal);
 	rp.id = 2;
-	cout << "retardo"<<endl;
 	funcion2(eventos,rp);
 
 	//Bucle que expresa el funcionamiento del procesador
@@ -255,7 +253,6 @@ int main(int argc, char **argv){
 					evento inter;
 					inter.tiempo = param.Interarrivo(tiempototal);
 					inter.id = 1;
-					cout << "retardo"<<endl;
 					funcion2(eventos,inter);
 					param.escribirLog("inter", inter.tiempo, inter.id);
 					if (procesador.estado){
@@ -343,7 +340,6 @@ int main(int argc, char **argv){
 				//vacio procesador y lo pongo disponible
 				procesador.lista.erase(procesador.lista.begin());
 				procesador.estado = true;
-				cout << "retardo"<<endl;
 				funcion2(eventos,rio);
 
 				param.escribirLog("rio", rio.tiempo, rio.id);
@@ -363,7 +359,6 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
-					cout << "retardo2"<<endl;
 					if(rr){
 						if(proce2.rr<rp.tiempo){
 							if(proce2.tiempo<proce2.rr){
@@ -434,7 +429,6 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
-					cout << "retardo2"<<endl;
 					if(rr){
 						if(proce3.rr<rp.tiempo){
 							if(proce3.tiempo<proce3.rr){
@@ -497,7 +491,6 @@ int main(int argc, char **argv){
 				procesador.lista.erase(procesador.lista.begin());
 				procesador.estado = true;
 				procesossalidos++;
-				cout << "Retardo"<<endl;
 				if (queue.empty()){
 					oceo = oceo +k.tiempo;
 				}
@@ -508,7 +501,6 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
-					cout << "retardo2"<<endl;
 					if(rr){
 						if(proce4.rr<rp.tiempo){
 							if(proce4.tiempo<proce4.rr){

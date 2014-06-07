@@ -1,6 +1,6 @@
-numproc 10000
-algoritmo RR 30
-interarrivo exponencial 10
-servicio exponencial 100
-RP constante 90
-RIO constante 30
+numproc 1000
+algoritmo RR 7
+interarrivo uniforme 10 20
+servicio uniforme 10 50
+RP constante 20
+RIO constante 5
