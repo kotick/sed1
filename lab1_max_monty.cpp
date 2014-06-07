@@ -82,10 +82,42 @@ void funcion3(vector<proceso> &lista, proceso proc){
 
 }
 
+proceso funcion4(vector<proceso> &lista, int idAlgoritmo){
+	proceso aux;
+	int posicion;
+	proceso com=lista.at(0);
+
+	switch(idAlgoritmo)
+	{
+		case 1://fifo			
+			aux=lista.at(0);
+			lista.erase(lista.begin());
+			break;
+
+		case 2:
+			
+			for (int i = 0; i < lista.size(); ++i)
+			{
+				if(com.tiempo>lista.at(i).tiempo){
+					com=lista.at(i);
+					posicion=i;
+				}
+				
+			}
+			aux=lista.at(posicion);
+			lista.erase(lista.begin()+posicion);
+			break;
+
+		case 3:
+			aux=lista.at(0);
+			lista.erase(lista.begin());
+			break;
+	}
+	return aux;
+}
+
+
 int main(int argc, char **argv){
-
-
-
 	bool makelog = false;
 	char c;	
 	string txtin, txtout = string("out.txt") , txtlog = string("log.txt");
@@ -126,6 +158,8 @@ int main(int argc, char **argv){
 
 
 
+
+
 	int a = 10; //total de procesos
 	int tiempo = 5; //tiempo total para acabar el proceso
 	int rpt = 3; //tiempo dentro del procesador
@@ -143,6 +177,15 @@ int main(int argc, char **argv){
 
 	//boolean para saber si la politica de scheduling es Round-Robin
 	bool rr;
+	if(param.algoritmo==3){
+		rr=true;
+	}
+	else{
+		rr=false;
+	}
+	double prueba=param.Tservicio(10000);
+	cout <<"hola linda: " << prueba <<endl;
+
 	//Variables globales que representan la simulacion
 	vector<evento> eventos;
 	vector<proceso> queue; //cola de procesos que esperan para entrar al procesador
@@ -192,7 +235,7 @@ int main(int argc, char **argv){
 				proceso proce;
 				proce.id = contador;
 				contador++;
-				proce.tiempo = tiempo;
+				proce.tiempo = tiempo;				
 				
 				evento inter;
 				//funcion que da el tiempo aleatorio del inter arribo

@@ -4,8 +4,6 @@
 #include <math.h>
 
 
-#define M_E        2.71828182845904523536
-#define M_PI       3.14159265358979323846
 
 
 #ifndef _GENERADOR_H
@@ -34,6 +32,8 @@ public:
 		rio,
 		rio1,
 		rio2;
+
+
 	bool is_openIn,
 		 is_openOut,
 		 is_openLog;
@@ -73,17 +73,12 @@ public:
 		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
 	};
 
-	
-
-	
-
 
 
 
 
 	double Interarrivo(double tiempo){
 		double delta;
-
 		switch(interarrivo){//se supone que lo conozco, maldita
 			case 2: //uniforme
 				delta=Uniforme(interarrivo1,interarrivo2,tiempo);
@@ -100,6 +95,7 @@ public:
 
 
 	double Tservicio(double tiempo){
+		cout << "tipo servicio " << servicio <<endl;
 		double delta;
 		switch(servicio){
 			case 2://uniforme
@@ -157,6 +153,7 @@ private:
 	double Exponencial(int lambda, double tiempo){
 		double u=Uniforme(0,1,tiempo);
 		double tux=(-1/lambda)*u;
+
 		return tux;
 	};
 
@@ -252,7 +249,7 @@ bool lectura (string txtin)
 				}
 				cout << servicio << servicio1 << servicio2 << endl;
 			}
-			else if (!getline.compare("RF"))
+			else if (!getline.compare("RP"))
 			{
 				filein >> getline;
 				if (getline.find("constante") == 0)
