@@ -157,13 +157,7 @@ int main(int argc, char **argv){
 
 	int a = param.numproc; //total de procesos
 
-	int tiempo = 20; //tiempo total para acabar el proceso
-	int rpt = 10; //tiempo dentro del procesador
-	int riot = 2; //tiempo dentro de I/O
-	int intert = 15; //tiempo inter arribo
 
-	//Numero de procesos arribados
-	int arribados = 0;
 	//total de unidades de tiempo
 	int tiempototal=0;
 	//total de procesos terminados
@@ -200,7 +194,7 @@ int main(int argc, char **argv){
 	procesoscreados++;
 	proceinicial.id = contador;
 	contador++;
-	proceinicial.tiempo = tiempo;
+	proceinicial.tiempo = param.Tservicio(tiempototal);
 
 	if (rr){
 		proceinicial.rr = param.algoritmo1;
@@ -209,14 +203,12 @@ int main(int argc, char **argv){
 	procesador.lista.push_back(proceinicial);
 	
 	evento inter;
-	//funcion que da el tiempo aleatorio del inter arribo
-	inter.tiempo = intert;
+	inter.tiempo = param.Interarrivo(tiempototal);
 	inter.id = 1;
 	funcion2(eventos,inter);
 
 	evento rp;
-	//funcion que da el tiempo aleatorio del RP
-	rp.tiempo = rpt;
+	rp.tiempo = param.RP(tiempototal);
 	rp.id = 2;
 
 	funcion2(eventos,rp);
@@ -243,13 +235,12 @@ int main(int argc, char **argv){
 					procesoscreados++;
 					proce1.id = contador;
 					contador++;
-					proce1.tiempo = tiempo;
+					proce1.tiempo = param.Tservicio(tiempototal);
 					if (rr){
 						proce1.rr = param.algoritmo1;
 					}
 					evento inter;
-					////////funcion que da el tiempo aleatorio del inter arribo
-					inter.tiempo = intert;
+					inter.tiempo = param.Interarrivo(tiempototal);
 					inter.id = 1;
 					cout << "retardo"<<endl;
 					funcion2(eventos,inter);
@@ -258,8 +249,7 @@ int main(int argc, char **argv){
 						procesador.estado = false;
 						procesador.lista.push_back(proce1);
 						evento rp;
-						////////funcion que fija el tiempo de rp
-						rp.tiempo = rpt;
+						rp.tiempo = param.RP(tiempototal);
 						rp.id = 2;
 						//contabilizamos la posibilidad que el proceso termine antes del tiempo que se le asigno
 						if(rr){
@@ -323,7 +313,7 @@ int main(int argc, char **argv){
 
 				evento rio;
 				//funcion que entrega el tiempo de IO
-				rio.tiempo = riot;
+				rio.tiempo = param.RIO(tiempototal);
 				rio.id=3;
 
 				procesador.lista.front().iotime = rio.tiempo;
@@ -346,7 +336,7 @@ int main(int argc, char **argv){
 					procesador.lista.push_back(proce2);
 
 					evento rp;
-					rp.tiempo = rpt;
+					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
 					if(rr){
 						if(proce2.rr<rp.tiempo){
@@ -411,7 +401,7 @@ int main(int argc, char **argv){
 					procesador.estado = false;
 					procesador.lista.push_back(proce3);
 					evento rp;
-					rp.tiempo = rpt;
+					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
 					funcion2(eventos,rp);
 					param.escribirLog("rp", rp.tiempo, rp.id);
@@ -441,7 +431,7 @@ int main(int argc, char **argv){
 					procesador.estado = false;
 					procesador.lista.push_back(proce4);
 					evento rp;
-					rp.tiempo = rpt;
+					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
 					if(rr){
 						if(proce4.rr<rp.tiempo){
@@ -508,7 +498,7 @@ int main(int argc, char **argv){
 
 				procesador.lista.push_back(proce5);
 				evento rp;
-				rp.tiempo = rpt;
+				rp.tiempo = param.RP(tiempototal);
 				rp.id = 2;
 
 				if(proce5.rr<rp.tiempo){
@@ -548,7 +538,6 @@ int main(int argc, char **argv){
 
 	}
 	cout << procesoscreados <<endl;
-	cout << procesossalidos <<endl;
 	cout << procesot <<endl;
 	
 	
