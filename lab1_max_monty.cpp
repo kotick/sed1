@@ -149,7 +149,10 @@ int main(int argc, char **argv){
 	}
 
 	Generador param;
-	param.cargarDatos(txtin, txtout);
+	if (makelog)
+		param.cargarDatos(txtin, txtout, txtlog);
+	else 
+		param.cargarDatos(txtin, txtout);
 	if (param.is_openIn)
 		cout << "it works!" << endl;
 	else 
@@ -587,9 +590,12 @@ int main(int argc, char **argv){
 		}
 
 	}
-	cout << procesoscreados <<endl;
-	cout << procesot <<endl;
-	
+
+
+	param.escribirOut("procesos creados", int(procesoscreados));
+	param.escribirOut("procesos salidos", int(procesossalidos));
+	param.escribirOut("procesos totales", int(procesot));
+	delete &param;
 	
 	return 0;
 }
