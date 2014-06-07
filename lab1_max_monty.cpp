@@ -40,7 +40,9 @@ vector<evento> funcion1(int valor,vector<evento> lista){
 	int n = 0;
 	while(n < lista.size()){
 		lista.at(n).tiempo = lista.at(n).tiempo - valor;
-		if (lista.at(n).tiempo < 0) lista.at(n).tiempo=0;
+		if (lista.at(n).tiempo < 0){
+			lista.at(n).tiempo=0;
+		} 		
 		n++;
 	}
 	return lista;
@@ -163,15 +165,15 @@ int main(int argc, char **argv){
 	///////Variables para estadisticas
 
 	//total de unidades de tiempo
-	int tiempototal=0;
+	double tiempototal=0;
 	//total de procesos terminados
 	int procesot=0;
 	//total de tiempo que el procesador pasa oceoso
-	int oceo=0;
+	double oceo=0;
 
 	int residencia = 0;
 	int procesosio = 0;
-	int tiempototalio = 0;
+	double tiempototalio = 0;
 	int procesossalidos = 0;
 	int procesoscreados = 0;
 	int largomaximocola= 0;
@@ -229,6 +231,7 @@ int main(int argc, char **argv){
 			break;
 		}
 		evento k = eventos.front();
+		cout << k.tiempo<<endl;
 		switch(k.id){
 			//caso 1 el evento es un inter arribo
 			case 1:{
@@ -312,8 +315,8 @@ int main(int argc, char **argv){
 						queue.push_back(proce1);
 						totalqueue++;
 						promedioqueue= promedioqueue+queue.size();
-						if (queue.size()>tencolaio){
-							tencolaio = queue.size();
+						if (queue.size()>largomaximocola){
+							largomaximocola = queue.size();
 						}
 					}
 				}
@@ -420,8 +423,8 @@ int main(int argc, char **argv){
 				queue.push_back(io.front());
 				totalqueue++;
 				promedioqueue= promedioqueue+queue.size();
-				if (queue.size()>tencolaio){
-					tencolaio = queue.size();
+				if (queue.size()>largomaximocola){
+					largomaximocola = queue.size();
 				}
 				io.erase(io.begin());
 				if(procesador.estado){
@@ -567,8 +570,8 @@ int main(int argc, char **argv){
 				queue.push_back(procesador.lista.front());
 				totalqueue++;
 				promedioqueue= promedioqueue+queue.size();
-				if (queue.size()>tencolaio){
-					tencolaio = queue.size();
+				if (queue.size()>largomaximocola){
+					largomaximocola = queue.size();
 				}
 				procesador.lista.erase(procesador.lista.begin());
 
@@ -614,26 +617,26 @@ int main(int argc, char **argv){
     			cout << "Error"<<endl;
 		}
 
-	}
-
+	}	
+	cout <<"final"<<endl;
 	//1. tiempo total de la simulacion
 	cout << tiempototal <<endl;
 
-	int utilizacion = tiempototal-oceo;
+	double utilizacion = tiempototal-oceo;
 	//2. Utilizacion del servidor
 	cout << utilizacion<<endl;
 	//3. Total tiempo osioso del servidor
 	cout << oceo <<endl;
-
-	tresidencia = utilizacion/residencia;
-	tencolaio = tiempototalio/procesosio;
+	cout << "falta estadistica 4"<<endl;
+	int tencolaio = tiempototalio/procesosio;
 	//5. tiempo de espera en cola I/O
 	cout << tencolaio <<endl;
 	//6. tiempo promedio de residencia
+	int tresidencia = utilizacion/residencia;
 	cout << tresidencia <<endl;
 	//7. largo maximo de la cola de listos
-	cout <<tencolaio<<endl;
-	estadistica8 = promedioqueue/totalqueue;
+	cout <<largomaximocola<<endl;
+	int estadistica8 = promedioqueue/totalqueue;
 	//8. largo promedio de la cola de listos
 	cout <<estadistica8<<endl;
 
@@ -641,7 +644,7 @@ int main(int argc, char **argv){
 	param.escribirOut("procesos creados", int(procesoscreados));
 	param.escribirOut("procesos salidos", int(procesossalidos));
 	param.escribirOut("procesos totales", int(procesot));
-	delete &param;
+
 
 	
 	return 0;
