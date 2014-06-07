@@ -637,13 +637,13 @@ int main(int argc, char **argv){
 
 	
 
-	param.escribirOut("1.", double(tiempototal));
-	param.escribirOut("2.", double(utilizacion));
-	param.escribirOut("3.", double(oseo));
-	param.escribirOut("5.", double(tencolaio));
-	param.escribirOut("6.", double(tresidencia));
-	param.escribirOut("7.", double(largomaximocola));
-	param.escribirOut("8.", double(estadistica8));
+	param.escribirOut("1. Tiempo total: ", double(tiempototal));
+	param.escribirOut("2. Tiempo uso CPU: ", double(utilizacion));
+	param.escribirOut("3. Tiempo ocio: ", double(oseo));
+	param.escribirOut("5. Tiempo IO: ", double(tencolaio));
+	param.escribirOut("6. Tiempo promedio residencia", double(tresidencia));
+	param.escribirOut("7. Largo máximo de cola", double(largomaximocola));
+	param.escribirOut("8. Largo prom. cola listos", double(estadistica8));
 
 	
 	return 0;
