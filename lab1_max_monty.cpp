@@ -45,6 +45,42 @@ vector<evento> funcion1(int valor,vector<evento> lista){
 	return lista;
 };
 
+void funcion2(vector<evento> &lista, evento){
+	int posicion;
+	if(lista.size()!=0){
+
+		for (int i = 0; i < lista.size(); ++i)
+		{
+			if(lista.at(i).tiempo<evento.tiempo){
+				posicion=i;
+			}
+		}
+		lista.insert(lista.begin()+posicion+1,n);
+	}
+	else{
+		lista.push_back(evento);
+
+
+	}
+}
+
+void funcion3(vector<proceso> &lista, proceso){
+	int posicion;
+	if(lista.size()!=0){
+		for (int i = 0; i < lista.size(); ++i)
+		{
+			if(lista.at(i).tiempo<proceso.tiempo){
+				posicion=i;
+			}
+		}
+		lista.insert(lista.begin()+posicion+1,n);
+	}
+	else{
+		lista.push_back(proceso);
+	}
+
+}
+
 int main(int argc, char **argv){
 
 
