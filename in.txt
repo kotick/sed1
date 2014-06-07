@@ -3,4 +3,3 @@ algoritmo RR 100
 interarrivo expotencial 5
 servicio expotencial 100
 RP uniforme 50 80
-RIO uniforme 10 100
