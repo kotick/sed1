@@ -1,5 +1,5 @@
-numproc 800
-algoritmo FCFS
+numproc 20
+algoritmo RR 5
 interarrivo expotencial 500
 servicio expotencial 1
 RP constante 6
