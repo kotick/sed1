@@ -54,13 +54,19 @@ public:
 	{
 		is_openIn = lectura(txtin);
 		fileout.open(txtout.c_str(), ios::out);
+		if (fileout.is_open())
+			is_openOut = true;
 		return true;
 	};
 	bool cargarDatos (string txtin, string txtout, string txtlog)
 	{
-		lectura (txtin);
+		is_openIn = lectura (txtin);
 		fileout.open(txtout.c_str(), ios::out);		
+		if (fileout.is_open())
+			is_openOut = true;
 		filelog.open(txtlog.c_str(), ios::out);
+		if (filelog.is_open())
+			is_openLog = true;
 		return true;
 	};
 
