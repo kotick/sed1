@@ -67,10 +67,12 @@ public:
 	bool escribirOut (string salida)
 	{
 		filelog << salida << endl;
+		return true;
 	};
 	bool escribirLog (string tipo, int tiempo, int id)
 	{
 		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
+		return true;
 	};
 
 
@@ -213,11 +215,11 @@ bool lectura (string txtin)
 			else if (!getline.compare("algoritmo"))
 			{
 				filein >> getline;
-				if (getline.find("FCFS") == 0)
+				if (getline.compare("FCFS") == 0)
 					algoritmo = 1;
-				else if (getline.find("SJF") == 0)
+				else if (getline.compare("SJF") == 0)
 					algoritmo = 2;
-				else if (getline.find("RR") == 0)
+				else if (getline.compare("RR") == 0)
 				{
 					algoritmo = 3;
 					filein >> getline;
@@ -228,7 +230,7 @@ bool lectura (string txtin)
 			else if (!getline.compare("interarrivo"))
 			{
 				filein >> getline;
-				if (getline.find("uniforme") == 0)
+				if (getline.compare("uniforme") == 0)
 				{
 					interarrivo = 1;
 					filein >> getline;
@@ -236,7 +238,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					interarrivo2 = atoi (getline.c_str());
 				}
-				else if (getline.find("expotencial") == 0)
+				else if (getline.compare("expotencial") == 0)
 				{
 					interarrivo = 2;
 					filein >> getline;
@@ -247,7 +249,7 @@ bool lectura (string txtin)
 			else if (!getline.compare("servicio"))
 			{
 				filein >> getline;
-				if (getline.find("uniforme") == 0)
+				if (getline.compare("uniforme") == 0)
 				{
 					servicio = 1;
 					filein >> getline;
@@ -255,7 +257,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					servicio2 = atoi (getline.c_str());
 				}
-				else if (getline.find("expotencial") == 0)
+				else if (getline.compare("expotencial") == 0)
 				{
 					servicio = 2;
 					filein >> getline;
@@ -266,13 +268,13 @@ bool lectura (string txtin)
 			else if (!getline.compare("RP"))
 			{
 				filein >> getline;
-				if (getline.find("constante") == 0)
+				if (getline.compare("constante") == 0)
 				{
 					rp = 1;
 					filein >> getline;
 					rp1 = atoi (getline.c_str());
 				}
-				else if (getline.find("uniforme") == 0)
+				else if (getline.compare("uniforme") == 0)
 				{
 					rp = 2;
 					filein >> getline;
@@ -280,7 +282,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					rp2 = atoi (getline.c_str());
 				}				
-				else if (getline.find("normal") == 0)
+				else if (getline.compare("normal") == 0)
 				{
 					rp = 3;
 					filein >> getline;
@@ -288,7 +290,7 @@ bool lectura (string txtin)
 					filein >> getline;
 					rp2 = atoi (getline.c_str());
 				}
-				else if (getline.find("expotencial") == 0)
+				else if (getline.compare("expotencial") == 0)
 				{
 					rp = 4;
 					filein >> getline;
@@ -299,13 +301,13 @@ bool lectura (string txtin)
 			else if (!getline.compare("RIO"))
 			{
 				filein >> getline;
-				if (getline.find("constante") == 0)
+				if (getline.compare("constante") == 0)
 				{
 					rio = 1;
 					filein >> getline;
 					rio1 = atoi (getline.c_str());
 				}
-				else if (getline.find("uniforme") == 0)
+				else if (getline.compare("uniforme") == 0)
 				{
 					rio = 2;
 					filein >> getline;

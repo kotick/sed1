@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 numproc 8000
 algoritmo RR 100
 interarrivo expotencial 5
 servicio expotencial 100
 RP uniforme 50 80
 RIO uniforme 10 100
+=======
+numproc 800
+algoritmo FCFS 100
+interarrivo expotencial 500
+servicio expotencial 1
+RP constante 6
+RIO uniforme 1
+>>>>>>> 96e6025369c84302aa56306ee1f32c32d45f581d
