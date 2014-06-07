@@ -67,10 +67,12 @@ public:
 	bool escribirOut (string salida)
 	{
 		filelog << salida << endl;
+				return true;
 	};
 	bool escribirLog (string tipo, int tiempo, int id)
 	{
 		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
+				return true;
 	};
 
 
