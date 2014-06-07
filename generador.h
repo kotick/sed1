@@ -75,9 +75,9 @@ public:
 		filelog << salida << endl;
 		return true;
 	};
-	bool escribirLog (string tipo, int tiempo, int id)
+	bool escribirLog (string tipo, double tiempo, int id)
 	{
-		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
+		filelog << tipo << ": Tiempo= " << string(tiempo) << " ID= " << string(id) << endl;
 		return true;
 	};
 
