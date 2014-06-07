@@ -641,10 +641,15 @@ int main(int argc, char **argv){
 	cout <<estadistica8<<endl;
 
 
-	param.escribirOut("procesos creados", int(procesoscreados));
-	param.escribirOut("procesos salidos", int(procesossalidos));
-	param.escribirOut("procesos totales", int(procesot));
 
+	param.escribirOut("1.", double(tiempototal));
+	param.escribirOut("2.", double(utilizacion));
+	param.escribirOut("3.", double(oceo));
+
+	param.escribirOut("5.", double(tencolaio));
+	param.escribirOut("6.", double(tresidencia));
+	param.escribirOut("7.", double(largomaximocola));
+	param.escribirOut("8.", double(estadistica8));
 
 	
 	return 0;
