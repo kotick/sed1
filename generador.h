@@ -37,8 +37,8 @@ public:
 	bool is_openIn,
 		 is_openOut,
 		 is_openLog;
-	fstream filein,
-			fileout, 
+	ifstream filein;
+	ofstream fileout, 
 			filelog;
 
 
@@ -46,38 +46,42 @@ public:
 	~Generador ()
 	{
 		fileout.close();
+		is_openOut = false;
 		filelog.close();
+		is_openLog = false;
 	};
 
 
 	bool cargarDatos (string txtin, string txtout)
-	{
-		is_openIn = lectura(txtin);
-		fileout.open(txtout.c_str(), ios::out);
+	{		
+		if (!(is_openIn = lectura(txtin)))
+			return is_openIn;
+		fileout.open(txtout.c_str());
 		if (fileout.is_open())
 			is_openOut = true;
 		return true;
 	};
 	bool cargarDatos (string txtin, string txtout, string txtlog)
 	{
-		is_openIn = lectura (txtin);
-		fileout.open(txtout.c_str(), ios::out);		
+		if (!(is_openIn = lectura(txtin)))
+			return is_openIn;
+		fileout.open(txtout.c_str());		
 		if (fileout.is_open())
 			is_openOut = true;
-		filelog.open(txtlog.c_str(), ios::out);
+		filelog.open(txtlog.c_str());
 		if (filelog.is_open())
-			is_openLog = true;
+			is_openLog = true;		
 		return true;
 	};
 
-	bool escribirOut (string salida)
+	bool escribirOut (string salida, int valor)
 	{
-		filelog << salida << endl;
+		filelog << salida << ": "<< valor << endl;
 		return true;
 	};
 	bool escribirLog (string tipo, double tiempo, int id)
 	{
-		filelog << tipo << ": Tiempo= " << string(tiempo) << " ID= " << string(id) << endl;
+		filelog << tipo << ": Tiempo= " << tiempo << " ID= " << id << endl;
 		return true;
 	};
 
@@ -198,7 +202,7 @@ private:
 
 bool lectura (string txtin)
 	{
-		filein.open(txtin.c_str(), ios::in);
+		filein.open(txtin.c_str());
 		if (!filein.is_open())
 		{
 			return false;
