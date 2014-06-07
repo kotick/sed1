@@ -103,7 +103,6 @@ public:
 
 
 	double Tservicio(double tiempo){
-		cout << "tipo servicio " << servicio <<endl;
 		double delta;
 		switch(servicio){
 			case 2://uniforme
@@ -159,7 +158,6 @@ public:
 
 private:
 	double Exponencial(int lambda, double tiempo){
-		cout <<"esto Exponencial: ";
 		default_random_engine generator;
 		exponential_distribution<double> distribution(lambda);
 		generator.seed(tiempo);
@@ -168,7 +166,6 @@ private:
 	};
 
 	double Uniforme(int a,int b,double tiempo){//t es el tiempo de eecucion c:
-		cout <<"esto Exponencial: ";
 		default_random_engine generator;
 		uniform_int_distribution<int> distribution(a,b);
 		generator.seed(tiempo);
@@ -183,7 +180,6 @@ private:
 
 	// http://www.cplusplus.com/reference/random/normal_distribution/
 	double Normal(int mu,int desv1,double tiempo){
-		cout <<"esto Normal: ";
 		double desv =sqrt(desv1);
 		std::default_random_engine generator;
   		std::normal_distribution<double> distribution(mu,desv);
@@ -205,7 +201,6 @@ bool lectura (string txtin)
 		filein.open(txtin.c_str(), ios::in);
 		if (!filein.is_open())
 		{
-			cout << txtin << " no existe o no se puede cargar" << endl;
 			return false;
 		}
 		while (!filein.eof())
@@ -216,7 +211,6 @@ bool lectura (string txtin)
 			{
 				filein >> getline;
 				numproc = atoi (getline.c_str());
-				cout << numproc << endl;
 			}
 			else if (!getline.compare("algoritmo"))
 			{
@@ -231,7 +225,6 @@ bool lectura (string txtin)
 					filein >> getline;
 					algoritmo1 = atoi (getline.c_str());
 				}
-				cout << algoritmo << algoritmo1  << endl;
 			}
 			else if (!getline.compare("interarrivo"))
 			{
@@ -250,7 +243,6 @@ bool lectura (string txtin)
 					filein >> getline;
 					interarrivo1 = atoi (getline.c_str());
 				}
-				cout << interarrivo << interarrivo1 << interarrivo2 << endl;
 			}
 			else if (!getline.compare("servicio"))
 			{
@@ -269,7 +261,6 @@ bool lectura (string txtin)
 					filein >> getline;
 					servicio1 = atoi (getline.c_str());
 				}
-				cout << servicio << servicio1 << servicio2 << endl;
 			}
 			else if (!getline.compare("RP"))
 			{
@@ -302,7 +293,6 @@ bool lectura (string txtin)
 					filein >> getline;
 					rp1 = atoi (getline.c_str());
 				}
-				cout << rp << rp1 << rp2 << endl;
 			}
 			else if (!getline.compare("RIO"))
 			{
@@ -321,7 +311,6 @@ bool lectura (string txtin)
 					filein >> getline;
 					rio2 = atoi (getline.c_str());
 				}
-				cout << rio << rio1 << rio2 << endl;
 			}
 		}
 		filein.close();

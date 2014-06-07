@@ -324,13 +324,17 @@ int main(int argc, char **argv){
 				procesador.estado = true;
 				cout << "retardo"<<endl;
 				funcion2(eventos,rio);
+
 				param.escribirLog("rio", rio.tiempo, rio.id);
 
 				if (queue.empty()){
-					oceo = oceo +eventos.front().tiempo;
+
+					oceo = oceo + k.tiempo;
+
 				}
 
 				else{
+
 					proceso proce2 = funcion4(queue,param.algoritmo);
 					procesador.estado = false;
 					procesador.lista.push_back(proce2);
@@ -338,6 +342,7 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
+					cout << "retardo2"<<endl;
 					if(rr){
 						if(proce2.rr<rp.tiempo){
 							if(proce2.tiempo<proce2.rr){
@@ -403,8 +408,52 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
-					funcion2(eventos,rp);
-					param.escribirLog("rp", rp.tiempo, rp.id);
+					cout << "retardo2"<<endl;
+					if(rr){
+						if(proce3.rr<rp.tiempo){
+							if(proce3.tiempo<proce3.rr){
+								evento salida;
+								salida.tiempo = proce3.tiempo;
+								salida.id=4;
+								funcion2(eventos,salida);
+								param.escribirLog("salida", salida.tiempo, salida.id);
+							}
+							else{
+								evento vuelta;
+								vuelta.tiempo = proce3.tiempo;
+								vuelta.id=5;
+								funcion2(eventos,vuelta);
+								param.escribirLog("vuelta", vuelta.tiempo, vuelta.id);
+							}
+						}
+						else{
+							if(proce3.tiempo<rp.tiempo){
+								evento salida;
+								salida.tiempo = proce3.tiempo;
+								salida.id=4;
+								funcion2(eventos,salida);
+								param.escribirLog("salida", salida.tiempo, salida.id);
+
+							}
+							else{
+								funcion2(eventos,rp);
+							}
+						}
+					}
+					else{
+						if(proce3.tiempo<rp.tiempo){
+							evento salida;
+							salida.tiempo = proce3.tiempo;
+							salida.id=4;
+							funcion2(eventos,salida);
+							param.escribirLog("salida", salida.tiempo, salida.id);
+
+						}
+						else{
+							funcion2(eventos,rp);
+							param.escribirLog("rp", rp.tiempo, rp.id);
+						}
+					}
 				}
 				break;
 			}
@@ -422,7 +471,7 @@ int main(int argc, char **argv){
 				procesador.lista.erase(procesador.lista.begin());
 				procesador.estado = true;
 				procesossalidos++;
-
+				cout << "Retardo"<<endl;
 				if (queue.empty()){
 					oceo = oceo +k.tiempo;
 				}
@@ -433,6 +482,7 @@ int main(int argc, char **argv){
 					evento rp;
 					rp.tiempo = param.RP(tiempototal);
 					rp.id = 2;
+					cout << "retardo2"<<endl;
 					if(rr){
 						if(proce4.rr<rp.tiempo){
 							if(proce4.tiempo<proce4.rr){
@@ -533,7 +583,7 @@ int main(int argc, char **argv){
 				break;
 			}
 		  	default:
-    			cout << "Error";
+    			cout << "Error"<<endl;
 		}
 
 	}

@@ -1,5 +1,6 @@
-numproc 10
-algoritmo SJF
-interarrivo expotencial 5
-servicio expotencial 100
-RP uniforme 50 80
+numproc 800
+algoritmo RR 100
+interarrivo expotencial 10
+servicio exponencial 100
+RP constante 6
+RIO constante 10
