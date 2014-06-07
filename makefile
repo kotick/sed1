@@ -5,7 +5,7 @@ all: relase
 	
 relase:
 	@echo 'Compilando $@'
-	g++ $(FILE) -o $(EXE) -lm -std=c++0x
+	g++ $(FILE) -o $(EXE) -std=c++0x
 	@echo 'listo'
 
 run:	
