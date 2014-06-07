@@ -74,9 +74,9 @@ public:
 		return true;
 	};
 
-	bool escribirOut (string salida, int valor)
+	bool escribirOut (string salida, double valor)
 	{
-		filelog << salida << ": "<< valor << endl;
+		fileout << salida << ": "<< valor << endl;
 		return true;
 	};
 	bool escribirLog (string tipo, double tiempo, int id)
